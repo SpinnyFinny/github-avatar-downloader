@@ -25,15 +25,28 @@ function getRepoContributors(repoOwner, repoName, cb) {
   })
 }
 
+function downloadImageByURL(url, filePath){
+
+  request.get(url)
+    .on('error', function(err){
+      throw err;
+    })
+    .on('response',function(response){
+      console.log(response.statusCode);
+    })
+
+}
+
 getRepoContributors("fuck", "your mom", function(err, result){
   if (err) {
     console.log('Errors:', err);
   } else {
-    // do okay shit
-    console.log('Results:', result);
+    console.log('Results:');
     result.forEach(function(element){
-      console.log(element);
+      console.log(element.avatar_url);
     })
   }
-  console.log(result[0].avatar_url)
+  // console.log(result[0].avatar_url)
 })
+
+downloadImageByURL("https://avatars2.githubusercontent.com/u/2741?v=3&s=466", "avatars/kvirani.jpg");
