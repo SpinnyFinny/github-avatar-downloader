@@ -13,16 +13,27 @@ var requestURL = {
 
 
 function getRepoContributors(repoOwner, repoName, cb) {
-  request(requestURL, function(err,response,body){
+  request(requestURL, function(err, response, body){
+    if (err) {
+      cb(err);
+    } else {
+      var userInfo = JSON.parse(body);    // note that if we weren't busy, we'd check to see if `body` is even parseable, ha ha ha, be srs
+      cb(null, userInfo);
+    }
 
-      var info = JSON.parse(body)
-      console.log(info);
 
-    })
+  })
 }
 
-getRepoContributors('tpope', 'vim-commentary', function(err, result){
-  console.log('Errors:', err);
-  console.log('Results:', result);
-
-});
+getRepoContributors("fuck", "your mom", function(err, result){
+  if (err) {
+    console.log('Errors:', err);
+  } else {
+    // do okay shit
+    console.log('Results:', result);
+    result.forEach(function(element){
+      console.log(element);
+    })
+  }
+  console.log(result[0].avatar_url)
+})
