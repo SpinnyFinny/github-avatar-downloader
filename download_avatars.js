@@ -19,6 +19,7 @@ function getRepoContributors(repoOwner, repoName, cb) {
     } else {
       var userInfo = JSON.parse(body);    // note that if we weren't busy, we'd check to see if `body` is even parseable, ha ha ha, be srs
       cb(null, userInfo);
+      // console.log(userInfo);
     }
 
 
@@ -32,7 +33,7 @@ function downloadImageByURL(url, filePath){
       throw err;
     })
     .on('response',function(response){
-      console.log(response.statusCode);
+      //console.log(response.statusCode);
     })
 
 }
@@ -42,9 +43,14 @@ getRepoContributors("fuck", "your mom", function(err, result){
     console.log('Errors:', err);
   } else {
     console.log('Results:');
-    result.forEach(function(element){
-      console.log(element.avatar_url);
+    userNamesAndAvatarURLs = [];
+    result.forEach(function(user){
+      info = {}
+      info.avatarURL = user.avatar_url
+      info.userName = user.login
+      userNamesAndAvatarURLs.push(info);
     })
+    console.log(userNamesAndAvatarURLs)
   }
   // console.log(result[0].avatar_url)
 })
