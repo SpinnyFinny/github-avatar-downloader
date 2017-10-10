@@ -1,5 +1,5 @@
 var request = require('request');
-
+var fs = require('fs');
 var GITHUB_USER = "SpinnyFinny";
 var GITHUB_TOKEN = "a1f46648acf06c1c61d3085f8eacc24fbcaff27d";
 var repoOwner = 'tpope';
@@ -28,13 +28,17 @@ function getRepoContributors(repoOwner, repoName, cb) {
 
 function downloadImageByURL(url, filePath){
 
+  if (!fs.existsSync('Avatars')){
+    fs.mkdirSync('Avatars');
+  }
   request.get(url)
     .on('error', function(err){
       throw err;
     })
     .on('response',function(response){
-      //console.log(response.statusCode);
+      console.log(response.statusCode);
     })
+    .pipe(fs.createWriteStream(filePath));
 
 }
 
@@ -43,7 +47,7 @@ getRepoContributors("fuck", "your mom", function(err, result){
     console.log('Errors:', err);
   } else {
     console.log('Results:');
-    userNamesAndAvatarURLs = [];
+    userNamesAndAvatarURLs = []; //****************************************
     result.forEach(function(user){
       info = {}
       info.avatarURL = user.avatar_url
@@ -55,4 +59,4 @@ getRepoContributors("fuck", "your mom", function(err, result){
   // console.log(result[0].avatar_url)
 })
 
-downloadImageByURL("https://avatars2.githubusercontent.com/u/2741?v=3&s=466", "avatars/kvirani.jpg");
+downloadImageByURL("https://avatars2.githubusercontent.com/u/2741?v=3&s=466", "./avatars/kvirani.jpg");
