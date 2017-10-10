@@ -19,7 +19,7 @@ function getRepoContributors(repoOwner, repoName, cb) {
     } else {
       var userInfo = JSON.parse(body);    // note that if we weren't busy, we'd check to see if `body` is even parseable, ha ha ha, be srs
       cb(null, userInfo);
-      // console.log(userInfo);
+      //console.log(userInfo);
     }
 
 
@@ -28,8 +28,8 @@ function getRepoContributors(repoOwner, repoName, cb) {
 
 function downloadImageByURL(url, filePath){
 
-  if (!fs.existsSync('Avatars')){
-    fs.mkdirSync('Avatars');
+  if (!fs.existsSync('avatars')){
+    fs.mkdirSync('avatars');
   }
   request.get(url)
     .on('error', function(err){
@@ -48,15 +48,19 @@ getRepoContributors("fuck", "your mom", function(err, result){
   } else {
     console.log('Results:');
     userNamesAndAvatarURLs = []; //****************************************
-    result.forEach(function(user){
-      info = {}
-      info.avatarURL = user.avatar_url
-      info.userName = user.login
-      userNamesAndAvatarURLs.push(info);
+    result.forEach(function(user) {
+      // info = {};
+      // info.avatarURL = user.avatar_url;
+      // info.userName = user.login;
+      // userNamesAndAvatarURLs.push(info);
+      var filePath = `avatars/${user.login}.jpg`;
+      var url = user.avatar_url;
+      downloadImageByURL(url, filePath)
     })
-    console.log(userNamesAndAvatarURLs)
+     // console.log(userNamesAndAvatarURLs)
+
   }
   // console.log(result[0].avatar_url)
 })
 
-downloadImageByURL("https://avatars2.githubusercontent.com/u/2741?v=3&s=466", "./avatars/kvirani.jpg");
+// downloadImageByURL("https://avatars2.githubusercontent.com/u/2741?v=3&s=466", "./avatars/kvirani.jpg");
